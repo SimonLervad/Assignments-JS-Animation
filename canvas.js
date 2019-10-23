@@ -1,4 +1,3 @@
-// draws canvas
 let Canvas = {
     init(canvasId, color) {
         this.canvas = $(canvasId);
