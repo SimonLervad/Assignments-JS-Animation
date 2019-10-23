@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignments JS Animation</title>
+	<script src="canvas.js"></script>
+	<script src="id.js"></script>
+</head>
+<style>
+	#mycv {
+		border:1px solid black;
+	}
+</style>
+<body>
+	    <h1>Assignment JS.Anim.N0</h1>
+        <canvas id="mycv" width="500" height="500"></canvas>
+        <form>
+        	<input id="width" type="number" name="width">
+        	<input id="height" type="number" name="height">
+        	<input id="button" type="button" name="submit" value="Submit">
+        </form>
+<script>
+let Umo = {
+    init(canvas, color) {
+        this.canvas = canvas;
+        this.x = Math.random() * this.canvas.getWidth();
+        this.y = Math.random() * this.canvas.getHeight();
+        this.r = Math.random() * 9 + 3;
+        this.dx = Math.random() * 5;
+        this.dy = Math.random() * 5;
+        this.color = color;
+    },
+
+    draw() {
+        this.canvas.getContext().beginPath();
+        this.canvas.getContext().fillStyle = this.color;
+        this.canvas.getContext().arc(this.x, this.y, this.r,
+                                     0, Math.PI * 2,
+                                     false);
+        this.canvas.getContext().fill();
+        this.canvas.getContext().closePath();
+    },
+
+    move() {
+        if (this.x + this.dx > this.canvas.getWidth() 
+                || this.x + this.dx < 0)
+              this.dx = -this.dx;
+        if (this.y + this.dy > this.canvas.getHeight() 
+                || this.y + this.dy < 0)
+              this.dy = -this.dy;
+            
+        this.x += this.dx;
+        this.y += this.dy;
+    },
+
+    toString() {
+        s = '';
+        s += this.x + ':' + this.y + ', ' + this.r + " \n " + this.color;
+        window.alert(s);
+    }
+};
+
+let shapes = [];
+var canvas;
+let colorArr = ["blue", "green", "red", "yellow", "orange", "pink", "purple", "teal", "black", "grey"];
+
+var redraw = function () {      
+        canvas.clear();     // clear canvas
+        canvas.prep();      // prep canvas with background color
+        for (let Umo of shapes) {
+        	Umo.draw();
+        	Umo.move();
+        }
+    }
+
+var repeater = function () {
+    setInterval(redraw, 10);
+}
+
+var initialize = function () {
+    canvas = Object.create(Canvas);
+    canvas.init('mycv', 'white');
+    for (i = 0; i < 10; i++) {
+    	shape = Object.create(Umo);
+   		shape.init(canvas, colorArr[i]);
+    	shapes.push(shape);
+    }
+    repeater();
+}
+
+$("button").addEventListener('click', function() {
+    var room = $('mycv');
+	room.width = $("width").value;
+	room.height = $("height").value;
+});
+
+window.addEventListener('load', initialize, false);
+</script>
+</body>
+</html>
